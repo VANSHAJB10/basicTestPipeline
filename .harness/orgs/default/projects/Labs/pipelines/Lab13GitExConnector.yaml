@@ -53,3 +53,10 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: githubVANSHAJB10
+        repoName: basicTestPipeline
+        build: <+input>
+        sparseCheckout: []
