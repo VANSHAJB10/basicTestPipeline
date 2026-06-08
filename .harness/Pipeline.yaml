@@ -1,5 +1,5 @@
 pipeline:
-  name: basicPipeline
+  name: basicPipeline001
   identifier: basicPipeline
   projectIdentifier: Labs
   orgIdentifier: default
