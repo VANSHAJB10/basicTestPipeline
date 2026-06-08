@@ -4,6 +4,13 @@ pipeline:
   projectIdentifier: Labs
   orgIdentifier: default
   tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: GithubAdminVANSHAJB10
+        repoName: " basicTestPipeline"
+        build: <+input>
+        sparseCheckout: []
   stages:
     - stage:
         name: gitexp-task1-connector
