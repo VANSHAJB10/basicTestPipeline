@@ -56,7 +56,7 @@ pipeline:
   properties:
     ci:
       codebase:
-        connectorRef: githubVANSHAJB10
-        repoName: basicTestPipeline
+        connectorRef: GithubAdminVANSHAJB10
+        repoName: " basicTestPipeline"
         build: <+input>
         sparseCheckout: []
