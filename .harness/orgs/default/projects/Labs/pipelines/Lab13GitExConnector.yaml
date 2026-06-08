@@ -1,0 +1,55 @@
+pipeline:
+  name: Lab13-GitExConnector
+  identifier: Lab13GitExConnector
+  projectIdentifier: Labs
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: gitexp-task1-connector
+        identifier: gitexptask1connector
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript
+                  identifier: ShellScript
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |
+                          echo "this is task 1 of lab 13"
+                          echo "keep it up! ${Executor}"
+                    environmentVariables:
+                      - name: Executor
+                        type: String
+                        value: Vanshaj
+                    outputVariables: []
+                  timeout: 10m
+              - step:
+                  type: Wait
+                  name: Wait5seconds
+                  identifier: Wait5seconds
+                  spec:
+                    duration: 10m
+              - step:
+                  type: ShellScript
+                  name: donePrint
+                  identifier: donePrint
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Done and Dusted"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
