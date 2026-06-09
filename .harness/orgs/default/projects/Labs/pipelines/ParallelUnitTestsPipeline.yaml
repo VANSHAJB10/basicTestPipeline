@@ -1,0 +1,157 @@
+pipeline:
+  name: Parallel Unit Tests Pipeline
+  identifier: parallel_unit_tests_pipeline
+  projectIdentifier: Labs
+  orgIdentifier: default
+  tags: {}
+
+  stages:
+    - stage:
+        name: Build and Test
+        identifier: build_and_test
+        type: CI
+        spec:
+          cloneCodebase: true
+
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: k8testcluster
+              namespace: harness-builds
+              os: Linux
+
+          execution:
+            steps:
+
+              # ── 1. Install deps once ──────────────────────────────────────
+              - step:
+                  name: Install Dependencies
+                  identifier: install_dependencies
+                  type: Run
+                  spec:
+                    connectorRef: docker-vanshajb10
+                    image: python:3.11-slim
+                    shell: Sh
+                    command: |
+                      pip install pytest --quiet
+                      echo "pytest installed ✓"
+
+              # ── 2. Four groups run IN PARALLEL ────────────────────────────
+              - parallel:
+
+                  # ── Group 1 : test_group1.py ────────────────────────────
+                  - stepGroup:
+                      name: "Group 1 — Math (tests 1 & 2)"
+                      identifier: test_group_1
+                      steps:
+                        - step:
+                            name: Run Group 1
+                            identifier: run_group_1
+                            type: Run
+                            spec:
+                              connectorRef: your_docker_connector
+                              image: python:3.11-slim
+                              shell: Sh
+                              command: |
+                                pip install pytest --quiet
+                                echo "▶ Group 1 started at $(date)"
+                                START=$(date +%s)
+                                pytest tests/test_group1.py -v
+                                END=$(date +%s)
+                                echo "✓ Group 1 done in $((END - START))s"
+
+                  # ── Group 2 : test_group2.py ────────────────────────────
+                  - stepGroup:
+                      name: "Group 2 — Strings (tests 3 & 4)"
+                      identifier: test_group_2
+                      steps:
+                        - step:
+                            name: Run Group 2
+                            identifier: run_group_2
+                            type: Run
+                            spec:
+                              connectorRef: your_docker_connector
+                              image: python:3.11-slim
+                              shell: Sh
+                              command: |
+                                pip install pytest --quiet
+                                echo "▶ Group 2 started at $(date)"
+                                START=$(date +%s)
+                                pytest tests/test_group2.py -v
+                                END=$(date +%s)
+                                echo "✓ Group 2 done in $((END - START))s"
+
+                  # ── Group 3 : test_group3.py ────────────────────────────
+                  - stepGroup:
+                      name: "Group 3 — Lists (tests 5 & 6)"
+                      identifier: test_group_3
+                      steps:
+                        - step:
+                            name: Run Group 3
+                            identifier: run_group_3
+                            type: Run
+                            spec:
+                              connectorRef: your_docker_connector
+                              image: python:3.11-slim
+                              shell: Sh
+                              command: |
+                                pip install pytest --quiet
+                                echo "▶ Group 3 started at $(date)"
+                                START=$(date +%s)
+                                pytest tests/test_group3.py -v
+                                END=$(date +%s)
+                                echo "✓ Group 3 done in $((END - START))s"
+
+                  # ── Group 4 : test_group4.py ────────────────────────────
+                  - stepGroup:
+                      name: "Group 4 — Users (tests 7 & 8)"
+                      identifier: test_group_4
+                      steps:
+                        - step:
+                            name: Run Group 4
+                            identifier: run_group_4
+                            type: Run
+                            spec:
+                              connectorRef: your_docker_connector
+                              image: python:3.11-slim
+                              shell: Sh
+                              command: |
+                                pip install pytest --quiet
+                                echo "▶ Group 4 started at $(date)"
+                                START=$(date +%s)
+                                pytest tests/test_group4.py -v
+                                END=$(date +%s)
+                                echo "✓ Group 4 done in $((END - START))s"
+
+              # ── 3. Summary ────────────────────────────────────────────────
+              - step:
+                  name: Timing Summary
+                  identifier: timing_summary
+                  type: Run
+                  spec:
+                    connectorRef: your_docker_connector
+                    image: python:3.11-slim
+                    shell: Sh
+                    command: |
+                      echo ""
+                      echo "════════════════════════════════════════"
+                      echo "  PARALLEL vs SEQUENTIAL COMPARISON"
+                      echo "════════════════════════════════════════"
+                      echo "  Each test sleeps 2s (2 tests/group)"
+                      echo ""
+                      echo "  Sequential total : ~16s  (4 groups × 4s)"
+                      echo "  Parallel total   :  ~4s  (slowest group)"
+                      echo "  Speedup          :   4×"
+                      echo "════════════════════════════════════════"
+
+          caching:
+            enabled: true
+            paths:
+              - /root/.cache/pip
+
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: MarkAsFailure
