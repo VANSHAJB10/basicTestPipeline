@@ -41,7 +41,7 @@ pipeline:
 
                   # ── Group 1 : test_group1.py ────────────────────────────
                   - stepGroup:
-                      name: "Group 1 — Math (tests 1 & 2)"
+                      name: Group 1 Math
                       identifier: test_group_1
                       steps:
                         - step:
@@ -62,7 +62,7 @@ pipeline:
 
                   # ── Group 2 : test_group2.py ────────────────────────────
                   - stepGroup:
-                      name: "Group 2 — Strings (tests 3 & 4)"
+                      name: Group  Strings
                       identifier: test_group_2
                       steps:
                         - step:
@@ -83,7 +83,7 @@ pipeline:
 
                   # ── Group 3 : test_group3.py ────────────────────────────
                   - stepGroup:
-                      name: "Group 3 — Lists (tests 5 & 6)"
+                      name: Group 3 Lists
                       identifier: test_group_3
                       steps:
                         - step:
@@ -104,7 +104,7 @@ pipeline:
 
                   # ── Group 4 : test_group4.py ────────────────────────────
                   - stepGroup:
-                      name: "Group 4 — Users (tests 7 & 8)"
+                      name: Group 4 Users
                       identifier: test_group_4
                       steps:
                         - step:
