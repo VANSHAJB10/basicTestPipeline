@@ -6,11 +6,11 @@ pipeline:
   tags: {}
 
   properties:
-  ci:
-    codebase:
-      connectorRef: github-VANSHAJB10
-      repoName: basicTestPipeline
-      build: <+input>                       # asks for branch/tag/PR at runtime
+    ci:
+      codebase:
+        connectorRef: github-VANSHAJB10
+        repoName: basicTestPipeline
+        build: <+input>                       # asks for branch/tag/PR at runtime
 
 
   stages:
