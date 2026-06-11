@@ -1,0 +1,103 @@
+pipeline:
+  name: tic116200
+  identifier: tic116200
+  projectIdentifier: Labs
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: echoMatrixSettings
+        identifier: echoMatrixSettings
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: echo
+                  identifier: echo
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "iteration index = <+strategy.iteration>"  
+                          echo "total iterations = <+strategy.iterations>"  
+                          echo "stage values (parent):"  
+                          echo "Current version for stage: <+stage.matrix.service>"  
+                          echo "Current environment for stage: <+stage.matrix.environment>"  
+                          echo "step values (local):"  
+                          echo "Current item (version): <+repeat.item>"
+                    environmentVariables: []
+                    outputVariables: []
+                    executionTarget: {}
+                  timeout: 10m
+                  failureStrategies: []
+                  strategy:
+                    repeat:
+                      items:
+                        - "18"
+                        - "17"
+                        - "16"
+                        - "15"
+                        - "14"
+                        - "13"
+                        - "12"
+                        - "11"
+                        - "10"
+                        - "9"
+                      maxConcurrency: 2
+        tags: {}
+        strategy:
+          matrix:
+            service:
+              - svc1
+              - svc2
+              - svc3
+            environment:
+              - env1
+              - env2
+            exclude:
+              - service: svc1
+                environment: env1
+            maxConcurrency: 2
+    - stage:
+        name: demostageUIPractice
+        identifier: demostageUIPractice
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript
+                  identifier: ShellScript
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Trying from UI <+repeat.item>"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+                  strategy:
+                    repeat:
+                      times: 3
+                  when:
+                    stageStatus: Success
+        tags: {}
+        strategy:
+          matrix:
+            service:
+              - svc1
+              - svc2
+              - svc3
+            environment:
+              - env1
+              - env2
