@@ -101,3 +101,10 @@ pipeline:
             environment:
               - env1
               - env2
+  properties:
+    ci:
+      codebase:
+        connectorRef: GithubAdminVANSHAJB10
+        repoName: basicTestPipeline
+        build: <+input>
+        sparseCheckout: []
