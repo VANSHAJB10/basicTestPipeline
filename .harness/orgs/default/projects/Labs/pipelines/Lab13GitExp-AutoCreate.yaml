@@ -1,5 +1,5 @@
 pipeline:
-  name: Lab13GitExp-AutoCreate
+  name: Lab13GitExp-AutoCreateNowTesting
   identifier: Lab13GitExpAutoCreate
   projectIdentifier: Labs
   orgIdentifier: default
@@ -52,7 +52,6 @@ pipeline:
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
-
     - stage:
         name: deployK8s
         identifier: deployK8s
@@ -106,7 +105,6 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
-
   variables:
     - name: env
       type: String
