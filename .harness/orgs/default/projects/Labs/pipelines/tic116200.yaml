@@ -108,3 +108,16 @@ pipeline:
         repoName: basicTestPipeline
         build: <+input>
         sparseCheckout: []
+  notificationRules:
+    - name: tic116200
+      identifier: tic116200
+      pipelineEvents:
+        - type: AllEvents
+      notificationMethod:
+        type: Webhook
+        spec:
+          webhookUrl: https://app.harness.io/ng/account/yHIOmxdnR36Tf8oZ1ES94g/module/cd/orgs/default/projects/Labs/settings/webhooks/basicTestPipeline_webhook
+      template:
+        versionLabel: v1
+        templateRef: account.jsonTemplate116200
+      enabled: true
